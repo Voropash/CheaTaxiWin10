@@ -75,25 +75,20 @@ namespace cheataxi
             string address = "https://maps.googleapis.com/maps/api/directions/xml?origin=(" + tmpSourseLoc + "&destination=" + tmpAimLoc + "&KEY=AIzaSyBrweENi7gpNQd23mLEWr9g3OuvXBq0LBA";
             log1.Text += address;
             StorageFile myDB;
-
-
             try
             {
-
                 StorageFile tempFile2 = await Windows.Storage.ApplicationData.Current.LocalFolder.CreateFileAsync("route", CreationCollisionOption.ReplaceExisting);
                 BackgroundDownloader manager2 = new BackgroundDownloader();
                 var operation = manager2.CreateDownload(new Uri(address), tempFile2);
                 IProgress<DownloadOperation> progressH = new Progress<DownloadOperation>((p) =>
-                { Debug.WriteLine("Transferred: {0}, Total: {1}", p.Progress.BytesReceived, p.Progress.TotalBytesToReceive); });
+                    { /*Debug.WriteLine("Transferred: {0}, Total: {1}", p.Progress.BytesReceived, p.Progress.TotalBytesToReceive);*/ });
                 await operation.StartAsync().AsTask(progressH);
-                Debug.WriteLine("BacgroundTransfer created");
+                    //Debug.WriteLine("BacgroundTransfer created");
 
-
-
+                
                 //StorageFolder folder = Windows.Storage.ApplicationData.Current.LocalFolder;
                 myDB = await Windows.Storage.ApplicationData.Current.LocalFolder.GetFileAsync("route");
-
-
+                
                 // Read the data
                 var alldata = await Windows.Storage.FileIO.ReadLinesAsync(myDB);
                 string[] datalines = new string[alldata.Count];
@@ -101,9 +96,6 @@ namespace cheataxi
                 foreach (var line in alldata)
                 {
                     datalines[ko] = line.ToString();
-                    //log1.Text += datalines[ko] + "\r\n";
-
-
 
                     if (flagDuration)
                     {
@@ -132,8 +124,8 @@ namespace cheataxi
                         }
                         int distanceStringLenght = datalines[ko].Length;
                         distance = datalines[ko].Substring(start + 7, distanceStringLenght - 7 - start - 8);
-                        //Debug.WriteLine(distance);
-                        //Debug.WriteLine(datalines[ko]);
+                            //Debug.WriteLine(distance);
+                            //Debug.WriteLine(datalines[ko]);
                         distanceResult.Text = "Длина оптимального маршрута " + distance + " метров";
                         if (Convert.ToInt64(distance) > MAX_LENGTH_ROUTE)
                         {
@@ -146,11 +138,8 @@ namespace cheataxi
                         ko++;
                         break;
                     }
-
-
-
+                    
                     ko++;
-
                     if ((start = datalines[ko - 1].IndexOf("<status>ZERO")) != -1)
                     {
                         MessageDialog dialog = new MessageDialog("Маршрут построить не удалось. Попробуйте снова. \r\nЕсли ошибка повторится вновь, просим уведомить нас о ней через форму обратной связи.", "Ошибка #007004");
@@ -179,13 +168,12 @@ namespace cheataxi
                     {
                         flagYet = true;
                     }
-                    //log1.Text += line.ToString() + "\r\n";
                 }
 
                 await myDB.DeleteAsync();
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 textBlock1.Text = "Info Error";
             }

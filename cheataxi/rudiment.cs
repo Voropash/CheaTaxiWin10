@@ -22,12 +22,11 @@ namespace cheataxi
 {
     public sealed partial class MainPage : Page
     {
+        // Refresh UI
         private void button4_Click(object sender, RoutedEventArgs e)
         {
-            //fadeInStoryboardOpacity.Begin();
             Storyboard storyboardscale = new Storyboard();
-            ScaleTransform scale = new ScaleTransform();//{ X = 1.0, Y = 1.0 };
-                                                        //appBar.RenderTransformOrigin = new Point(250.0/64, 0.0);
+            ScaleTransform scale = new ScaleTransform();
             backgr.RenderTransform = scale;
             DoubleAnimation scaleAnim = new DoubleAnimation();
             scaleAnim.Duration = TimeSpan.FromMilliseconds(400);
@@ -38,16 +37,14 @@ namespace cheataxi
             scaleAnim.EasingFunction = easingFunctionscale;
             Storyboard.SetTarget(scaleAnim, appBar);
             Storyboard.SetTargetProperty(scaleAnim, "(UIElement.RenderTransform).(ScaleTransform.ScaleX)");
-            //storyboardscale.Completed += new System.EventHandler(storyboard_Completed);
             storyboardscale.Children.Add(scaleAnim);
             if (isAppBarOpen)
                 storyboardscale.Begin();
             fadeInStoryboard.Begin();
             fadeInGridOpacity.Begin();
-            //Hamburger.Begin();
-            //AppBarOpacityAnimationIn.Begin();
         }
 
+        // Loading and reading big file 
         private async void button3_Click(object sender, RoutedEventArgs e)
         {
 
@@ -68,13 +65,7 @@ namespace cheataxi
                     { Debug.WriteLine("Transferred: {0}, Total: {1}", p.Progress.BytesReceived, p.Progress.TotalBytesToReceive); });
                     await operation.StartAsync().AsTask(progressH);
                     Debug.WriteLine("BacgroundTransfer created");
-
-
-
-                    //StorageFolder folder = Windows.Storage.ApplicationData.Current.LocalFolder;
                     myDB = await Windows.Storage.ApplicationData.Current.LocalFolder.GetFileAsync("multi");
-
-
                     // Read the data
                     var alldata = await Windows.Storage.FileIO.ReadLinesAsync(myDB);
                     string[] datalines = new string[alldata.Count];
@@ -85,38 +76,25 @@ namespace cheataxi
                         ko++;
                         log1.Text += line.ToString() + "\r\n";
                     }
-
-
-
-
                     await myDB.DeleteAsync();
-
-
                 }
                 catch (Exception ex)
                 {
                     textBlock1.Text = "Download Error";
-                    //await myDB.DeleteAsync();
                 }
                 OwnSemaphoreBtn3 = true;
             }
-
-
-
         }
 
 
-
+        // Loading changing and uploading counter
         private async void button2_Click(object sender, RoutedEventArgs e)
         {
-
             if (OwnSemaphoreBtn2 == true)
             {
                 OwnSemaphoreBtn2 = false;
-
                 textBlock1.Text = "загрузка";
                 StorageFile myDB;
-
                 try
                 {
                     string address = @"http://artmordent.ru/cheataxi/database.cr";
@@ -127,44 +105,26 @@ namespace cheataxi
                     { Debug.WriteLine("Transferred: {0}, Total: {1}", p.Progress.BytesReceived, p.Progress.TotalBytesToReceive); });
                     await operation.StartAsync().AsTask(progressH);
                     Debug.WriteLine("BacgroundTransfer created");
-
-
-
-                    //StorageFolder folder = Windows.Storage.ApplicationData.Current.LocalFolder;
+                    
                     myDB = await Windows.Storage.ApplicationData.Current.LocalFolder.GetFileAsync("database");
-
-
-                    //await Windows.Storage.FileIO.WriteTextAsync(myDB, "Swift as a shadow");
                     string s = await Windows.Storage.FileIO.ReadTextAsync(myDB);
                     int num;
                     if (Int32.TryParse(s, out num)) { }
                     else { /*Error*/ }
-
                     textBlock1.Text = (++num).ToString();
-
-
-
-
                     var Successful = await LoadFunctions.SmallUpload("ftp://artmordent.ru/", "database.cr", "voropash_2", "123456789", num.ToString());
-
-
-
                     await myDB.DeleteAsync();
-
-
                 }
                 catch (Exception ex)
                 {
                     textBlock1.Text = "Download Error";
-                    //await myDB.DeleteAsync();
                 }
                 OwnSemaphoreBtn2 = true;
             }
         }
-
-
-
-
+        
+      
+        // Loading Image
         private async void button1_Click(object sender, RoutedEventArgs e)
         {
             textBlock1.Text = "загрузка";

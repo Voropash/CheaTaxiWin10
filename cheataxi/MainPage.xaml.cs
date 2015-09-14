@@ -195,7 +195,6 @@ namespace cheataxi
             aimLable.Visibility = Visibility.Collapsed;
             aimLableBG.Visibility = Visibility.Collapsed;
             aimLableHead.Visibility = Visibility.Collapsed;
-        }
-                
+        }                
     }
 }

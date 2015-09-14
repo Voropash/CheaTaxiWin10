@@ -103,13 +103,11 @@ namespace cheataxi
             moveAnim.Duration = TimeSpan.FromMilliseconds(600);
             moveAnim.From = 0;
             moveAnim.To = 636;
-            //moveAnim.BeginTime = TimeSpan.FromSeconds(0.85);
             SineEase easingFunction = new SineEase();
             easingFunction.EasingMode = EasingMode.EaseIn;
             moveAnim.EasingFunction = easingFunction;
             Storyboard.SetTarget(moveAnim, resultGrid);
             Storyboard.SetTargetProperty(moveAnim, "(UIElement.RenderTransform).(TranslateTransform.Y)");
-            //storyboard.Completed += new System.EventHandler(storyboard_Completed);
             storyboard.Children.Add(moveAnim);
             storyboard.Begin();
             resultAnimation.Begin();

@@ -36,8 +36,6 @@ namespace cheataxi
         async private Task DrawPath()
         {
             loading.Visibility = Visibility.Visible;
-
-
             string tmpSourseLoc = Convert.ToString(sourseLocation.Latitude).Substring(0, Convert.ToString(sourseLocation.Latitude).IndexOf(',')) + '.' + Convert.ToString(sourseLocation.Latitude).Substring(Convert.ToString(sourseLocation.Latitude).IndexOf(',') + 1, Convert.ToString(sourseLocation.Latitude).Length - Convert.ToString(sourseLocation.Latitude).IndexOf(',') - 1);
             tmpSourseLoc += "," + Convert.ToString(sourseLocation.Longitude).Substring(0, Convert.ToString(sourseLocation.Longitude).IndexOf(',')) + '.' + Convert.ToString(sourseLocation.Longitude).Substring(Convert.ToString(sourseLocation.Longitude).IndexOf(',') + 1, Convert.ToString(sourseLocation.Longitude).Length - Convert.ToString(sourseLocation.Longitude).IndexOf(',') - 1);
             string tmpAimLoc = Convert.ToString(AimLocation.Latitude).Substring(0, Convert.ToString(AimLocation.Latitude).IndexOf(',')) + '.' + Convert.ToString(AimLocation.Latitude).Substring(Convert.ToString(AimLocation.Latitude).IndexOf(',') + 1, Convert.ToString(AimLocation.Latitude).Length - Convert.ToString(AimLocation.Latitude).IndexOf(',') - 1);
@@ -64,42 +62,28 @@ namespace cheataxi
                 routeLine.Color = Windows.UI.Colors.RoyalBlue;
                 routeLine.Width = 6.0;
 
-                int bound = ((BingMapHelper.Route)(r.ResourceSets[0].Resources[0])).
-                    RoutePath.Line.Coordinates.GetUpperBound(0);
+                int bound = ((BingMapHelper.Route)(r.ResourceSets[0].Resources[0])).RoutePath.Line.Coordinates.GetUpperBound(0);
 
-                sourseLocation.Latitude = ((BingMapHelper.Route)(r.ResourceSets[0].Resources[0])).
-                    RoutePath.Line.Coordinates[0][0];
-                sourseLocation.Longitude = ((BingMapHelper.Route)(r.ResourceSets[0].Resources[0])).
-                    RoutePath.Line.Coordinates[0][1];
+                sourseLocation.Latitude = ((BingMapHelper.Route)(r.ResourceSets[0].Resources[0])).RoutePath.Line.Coordinates[0][0];
+                sourseLocation.Longitude = ((BingMapHelper.Route)(r.ResourceSets[0].Resources[0])).RoutePath.Line.Coordinates[0][1];
 
-                AimLocation.Latitude = ((BingMapHelper.Route)(r.ResourceSets[0].Resources[0])).
-                    RoutePath.Line.Coordinates[bound][0];
-                AimLocation.Longitude = ((BingMapHelper.Route)(r.ResourceSets[0].Resources[0])).
-                    RoutePath.Line.Coordinates[bound][1];
+                AimLocation.Latitude = ((BingMapHelper.Route)(r.ResourceSets[0].Resources[0])).RoutePath.Line.Coordinates[bound][0];
+                AimLocation.Longitude = ((BingMapHelper.Route)(r.ResourceSets[0].Resources[0])).RoutePath.Line.Coordinates[bound][1];
 
-                //var sourcePin = new Pushpin();
                 var sourceLocation = new Bing.Maps.Location(sourseLocation.Latitude, sourseLocation.Longitude);
-                // MapLayer.SetPosition(sourcePin, sourceLocation);
                 myMap.Children.Add(pin);
                 myMap.Children.Add(pinAim);
 
                 var destinationLocation = new Bing.Maps.Location(AimLocation.Latitude, AimLocation.Longitude);
-                //MapLayer.SetPosition(pin, destinationLocation);
-                //myMap.Children.Add(pin);
-
                 myMap.SetView(sourceLocation, myMap.ZoomLevel);
-
                 for (int i = 0; i < bound; i++)
                 {
                     routeLine.Locations.Add(new Location
-                    {
-                        Latitude = ((BingMapHelper.Route)(r.ResourceSets[0].Resources[0])).
-                        RoutePath.Line.Coordinates[i][0],
-                        Longitude = ((BingMapHelper.Route)(r.ResourceSets[0].Resources[0])).
-                        RoutePath.Line.Coordinates[i][1]
-                    });
+                        {
+                            Latitude = ((BingMapHelper.Route)(r.ResourceSets[0].Resources[0])).RoutePath.Line.Coordinates[i][0],
+                            Longitude = ((BingMapHelper.Route)(r.ResourceSets[0].Resources[0])).RoutePath.Line.Coordinates[i][1]
+                        });
                 }
-
                 MapShapeLayer shapeLayer = new MapShapeLayer();
                 shapeLayer.Shapes.Add(routeLine);
                 myMap.ShapeLayers.Add(shapeLayer);
@@ -109,7 +93,6 @@ namespace cheataxi
                 MessageDialog dialog = new MessageDialog("Маршрут построить не удалось. Попробуйте снова. \r\nЕсли ошибка повторится вновь, просим уведомить нас о ней через форму обратной связи.", "Ошибка построения маршрута");
                 await dialog.ShowAsync();
             }
-
             loading.Visibility = Visibility.Collapsed;
         }
     }

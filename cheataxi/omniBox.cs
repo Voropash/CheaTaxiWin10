@@ -25,10 +25,8 @@ namespace cheataxi
         private async void button5_Click(object sender, RoutedEventArgs e)
         {
             string address = "http://geocode-maps.yandex.ru/1.x/?geocode=" + textBox.Text;
-
-
+            
             StorageFile myDB;
-
             try
             {
                 listBox.Visibility = Visibility.Visible;
@@ -39,16 +37,13 @@ namespace cheataxi
                 BackgroundDownloader manager2 = new BackgroundDownloader();
                 var operation = manager2.CreateDownload(new Uri(address), tempFile2);
                 IProgress<DownloadOperation> progressH = new Progress<DownloadOperation>((p) =>
-                { Debug.WriteLine("Transferred: {0}, Total: {1}", p.Progress.BytesReceived, p.Progress.TotalBytesToReceive); });
+                { /*Debug.WriteLine("Transferred: {0}, Total: {1}", p.Progress.BytesReceived, p.Progress.TotalBytesToReceive);*/ });
                 await operation.StartAsync().AsTask(progressH);
-                Debug.WriteLine("BacgroundTransfer created");
-
-
-
+                    //Debug.WriteLine("BacgroundTransfer created");
+                
                 //StorageFolder folder = Windows.Storage.ApplicationData.Current.LocalFolder;
                 myDB = await Windows.Storage.ApplicationData.Current.LocalFolder.GetFileAsync("multi");
-
-
+                
                 // Read the data
                 var alldata = await Windows.Storage.FileIO.ReadLinesAsync(myDB);
                 datalines = new string[alldata.Count];
@@ -63,14 +58,12 @@ namespace cheataxi
                         listBox.Items.Add(datalines[ko - 1].Substring(start + 6, nameLeng - 6 - start - 7));
                     }
                 }
-
                 await myDB.DeleteAsync();
 
             }
             catch (Exception ex)
             {
                 MessageDialog dialog = new MessageDialog("Ошибка при поиске Вашего запроса. Очистите карту и попробуйте построить маршрут снова.", "Ошибка поиска");
-                //await myDB.DeleteAsync();
             }
         }
 
@@ -110,11 +103,9 @@ namespace cheataxi
                                 + ',' +
                                     pos.Substring(pos.IndexOf('.', pos.IndexOf('.') + 1) + 1, pos.Length - (pos.IndexOf('.', pos.IndexOf('.') + 1) + 1)));
 
-
-
+                        
                         myMap.SetView(location = new Bing.Maps.Location() { Latitude = l2, Longitude = l1 });
                         contextPerform();
-
                         break;
                     }
                 }
