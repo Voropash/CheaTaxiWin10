@@ -110,6 +110,8 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="CountingPerform.cs" />
+    <Compile Include="DrowPath.cs" />
     <Compile Include="info.xaml.cs">
       <DependentUpon>info.xaml</DependentUpon>
     </Compile>
@@ -118,6 +120,7 @@
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="maphelper.cs" />
+    <Compile Include="omniBox.cs" />
     <Compile Include="ParallaxConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="rudiment.cs" />
