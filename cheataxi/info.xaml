@@ -32,17 +32,11 @@
                 <EasingDoubleKeyFrame KeyTime="0:0:0.1" Value="1"/>
             </DoubleAnimationUsingKeyFrames>
         </Storyboard>
-
     </Page.Resources>
-
-
 
     <Grid Margin="0,0,0,0">
         <StackPanel x:Name="appBar" HorizontalAlignment="Left" VerticalAlignment="Top" Width="64" RenderTransformOrigin="0,0.5" Height="{Binding ElementName=bigStartLogo, Path=ActualHeight}" />
-
-
         <Grid x:Name="appBarbackgr" Background="#FF606060"/>
-
         <Grid x:Name="backgr" Margin="64,0,0,0">
             <Grid.RenderTransform>
                 <CompositeTransform/>
@@ -51,23 +45,15 @@
                 <ImageBrush Stretch="UniformToFill" ImageSource="Assets/noch-temnota-ogni-fary.jpg"/>
             </Grid.Background>
             <Rectangle Fill="White" Opacity="0.6" />
-
-
-
             <ScrollViewer x:Name="sw" IsVerticalRailEnabled="False" IsVerticalScrollChainingEnabled="False">
                 <Grid RenderTransformOrigin="0.5,0.5" Margin="0,0,0,0" GotFocus="notfocus" DragLeave="notfocus">
-
                     <TextBlock x:Name="loading" HorizontalAlignment="Left" Height="471" Margin="499,320,0,0" TextWrapping="Wrap" Text="Загрузка" VerticalAlignment="Top" Width="651" RequestedTheme="Light" FontSize="96" Visibility="Collapsed"/>
                     <TextBlock x:Name="infoBlockMain" HorizontalAlignment="Left" Height="563" Margin="15,191,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="768" FontSize="16"/>
                     <Button x:Name="backButton" Content="&lt;=" HorizontalAlignment="Left" Height="189" Margin="0,0,0,0" VerticalAlignment="Top" Width="248" FontSize="85.333" BorderThickness="0" Opacity="0.7" Click="backButton_Click"/>
-
                 </Grid>
             </ScrollViewer>
-
         </Grid>
         <Button x:Name="hamburgerButton" Content="H" HorizontalAlignment="Left" Height="64" Width="64" Click="button_Click" VerticalAlignment="Top" BorderThickness="0" FontSize="33.333"/>
         <Button x:Name="infoButton" Content="I" HorizontalAlignment="Left" Height="64" Width="64" VerticalAlignment="Bottom" BorderThickness="0" FontSize="33.333" Margin="0"/>
-
     </Grid>
-
 </Page>

@@ -18,21 +18,18 @@ using System.Runtime.Serialization.Json;
 using Windows.Devices.Geolocation;
 using Windows.UI.Popups;
 
-// Шаблон элемента пустой страницы задокументирован по адресу http://go.microsoft.com/fwlink/?LinkId=234238
 
 namespace cheataxi
 {
-    /// <summary>
-    /// Пустая страница, которую можно использовать саму по себе или для перехода внутри фрейма.
-    /// </summary>
     public sealed partial class MainPage : Page
     {
-
+        // global page variables
         private static Boolean isAppBarOpen = false;
-        private static Boolean isAppBarHBOpened = false;
+            //private static Boolean isAppBarHBOpened = false; 
+        // Semaphore Lite for some functions
         private static Boolean OwnSemaphoreBtn2 = true;
         private static Boolean OwnSemaphoreBtn3 = true;
-        static string GeneratedHTML = "";
+        // global Map variables
         Bing.Maps.Pushpin pin = new Bing.Maps.Pushpin();
         Bing.Maps.Pushpin pinAim = new Bing.Maps.Pushpin();
         Bing.Maps.Location location , sourseLocation, AimLocation;
@@ -41,13 +38,14 @@ namespace cheataxi
         private string[] datalines;
         private bool ifResultShown = false;
         private bool flagdistance = true;
-        private MainPage dataContext;
 
+        // Const in kilometers, when route will not be drown
         Int64 MAX_LENGTH_ROUTE = 150000;
 
         public MainPage()
         {
             this.InitializeComponent();
+            // Page animations 
             fadeInStoryboardOpacity.Begin();
             fadeInStoryboard.Begin();
             fadeInGridOpacity.Begin();
@@ -55,70 +53,21 @@ namespace cheataxi
             AppBarOpacityAnimationIn.Begin();
             AppBarOpacityAnimationInBackground.Begin();
 
+            // Map and Pin init
             pin.Background = new SolidColorBrush(Windows.UI.Colors.Red);
             myMap.Children.Add(pin);
             pinAim.Background = new SolidColorBrush(Windows.UI.Colors.Blue);
             myMap.Children.Add(pinAim);
-            this.DataContext = dataContext;
+                //this.DataContext = dataContext;
+            // Hide some Items at Page
             listBox.Visibility = Visibility.Collapsed;
             loading.Visibility = Visibility.Collapsed;
         }
-
-   
-
-    private static async Task<BitmapImage> LoadImage(StorageFile file)
-        {
-            BitmapImage bitmapImage = new BitmapImage();
-            FileRandomAccessStream stream = (FileRandomAccessStream)await file.OpenAsync(FileAccessMode.Read);
-
-            bitmapImage.SetSource(stream);
-
-            return bitmapImage;
-
-        }
-
-
-
-
-
-        public static async Task<bool> SmallUpload(string ftpURIInfo,
-         string filename, string username, string password, string UploadLine)
-        {
-            string serverUrl;
-            Uri serverUri = null;
-            NetworkCredential credential;
-            bool Successful = false;
-            try
-            {
-                Uri.TryCreate(ftpURIInfo, UriKind.Absolute, out serverUri);
-                serverUrl = serverUri.ToString();
-                credential = new System.Net.NetworkCredential(username.Trim(),
-                password.Trim());
-
-                WebRequest request = WebRequest.Create(serverUrl + "/" + filename);
-                request.Credentials = credential;
-                request.Proxy = WebRequest.DefaultWebProxy;
-                request.Method = "STOR";
-                byte[] buffer = Encoding.UTF8.GetBytes(UploadLine);
-              using (Stream requestStream = await request.GetRequestStreamAsync())
-                {
-                    await requestStream.WriteAsync(buffer, 0, buffer.Length);
-                    await requestStream.FlushAsync();
-               }
-                Successful = true;
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-            return Successful;
-        }
-
-
+        
+        
         private async void button1_Click(object sender, RoutedEventArgs e)
         {
            textBlock1.Text = "загрузка";
-
             try
             {
                 string address = @"http://artmordent.ru/wp-content/uploads/2015/04/ss2-650x433.png";
@@ -131,7 +80,7 @@ namespace cheataxi
                 Debug.WriteLine("BacgroundTransfer created");
 
                 StorageFile x = await Windows.Storage.ApplicationData.Current.LocalFolder.GetFileAsync("temp.png");
-                image1.Source = await LoadImage(x);
+                image1.Source = await LoadFunctions.LoadImage(x);
 
             }
             catch (Exception ex)
@@ -179,7 +128,7 @@ namespace cheataxi
                
                     
 
-                    var Successful = await SmallUpload("ftp://artmordent.ru/artmordent.ru/cheataxi/", "database.cr", "voropash", "dr1995dr", num.ToString());
+                    var Successful = await LoadFunctions.SmallUpload("ftp://artmordent.ru/", "database.cr", "voropash_2", "123456789", num.ToString());
 
 
 
@@ -272,7 +221,7 @@ namespace cheataxi
             Storyboard.SetTargetProperty(scaleAnim, "(UIElement.RenderTransform).(ScaleTransform.ScaleX)");
             //storyboardscale.Completed += new System.EventHandler(storyboard_Completed);
             storyboardscale.Children.Add(scaleAnim);
-            if (isAppBarHBOpened)
+            if (isAppBarOpen)
                 storyboardscale.Begin();
             fadeInStoryboard.Begin();
             fadeInGridOpacity.Begin();
@@ -281,137 +230,34 @@ namespace cheataxi
         }
 
 
+        // If Hamburger menu Lost focus
         private void notfocus(object sender, RoutedEventArgs e)
         {
             if (isAppBarOpen)
             {
+                // Close AppBar with animations 
                 isAppBarOpen = false;
-                Storyboard storyboard = new Storyboard();
-                TranslateTransform trans = new TranslateTransform();// { X = 60.0, Y = 0.0 };
-                                                                    //backgr.RenderTransformOrigin = new Point(250.0, 0.0);
-                backgr.RenderTransform = trans;
-                DoubleAnimation moveAnim = new DoubleAnimation();
-                moveAnim.Duration = TimeSpan.FromMilliseconds(250);
-                moveAnim.From = 250 - 64;
-                moveAnim.To = 0;
-                //moveAnim.BeginTime = TimeSpan.FromSeconds(0.85);
-                SineEase easingFunction = new SineEase();
-                easingFunction.EasingMode = EasingMode.EaseInOut;
-                moveAnim.EasingFunction = easingFunction;
-                Storyboard.SetTarget(moveAnim, backgr);
-                Storyboard.SetTargetProperty(moveAnim, "(UIElement.RenderTransform).(TranslateTransform.X)");
-                //storyboard.Completed += new System.EventHandler(storyboard_Completed);
-                storyboard.Children.Add(moveAnim);
-                storyboard.Begin();
-
-                Storyboard storyboardscale = new Storyboard();
-                ScaleTransform scale = new ScaleTransform();//{ X = 1.0, Y = 1.0 };
-                                                            //appBar.RenderTransformOrigin = new Point(250.0/64, 0.0);
-                appBar.RenderTransform = scale;
-                DoubleAnimation scaleAnim = new DoubleAnimation();
-                scaleAnim.Duration = TimeSpan.FromMilliseconds(250);
-                scaleAnim.From = 250.0 / 64;
-                scaleAnim.To = 1;
-                SineEase easingFunctionscale = new SineEase();
-                easingFunctionscale.EasingMode = EasingMode.EaseInOut;
-                scaleAnim.EasingFunction = easingFunctionscale;
-                Storyboard.SetTarget(scaleAnim, appBar);
-                Storyboard.SetTargetProperty(scaleAnim, "(UIElement.RenderTransform).(ScaleTransform.ScaleX)");
-                //storyboardscale.Completed += new System.EventHandler(storyboard_Completed);
-                storyboardscale.Children.Add(scaleAnim);
-                storyboardscale.Begin();
-
-
-                textBlock1.Text = "Гамбургер закрыт";
+                closeAppBarAnimation();
+                textBlock1.Text = "Гамбургер закрыт"; // viewDebug
             }
         }
 
 
-
+        // Hamburger Button Handler
         private void button_Click(object sender, RoutedEventArgs e)
         {
-            isAppBarHBOpened = true;
+                //isAppBarHBOpened = true;
             if (!isAppBarOpen)
             {
                 isAppBarOpen = true;
-                Storyboard storyboard = new Storyboard();
-                TranslateTransform trans = new TranslateTransform();// { X = 60.0, Y = 0.0 };
-                                                                    //backgr.RenderTransformOrigin = new Point(250.0, 0.0);
-                backgr.RenderTransform = trans;
-                DoubleAnimation moveAnim = new DoubleAnimation();
-                moveAnim.Duration = TimeSpan.FromMilliseconds(250);
-                moveAnim.From = 0;
-                moveAnim.To = 250 - 64;
-                //moveAnim.BeginTime = TimeSpan.FromSeconds(0.85);
-                SineEase easingFunction = new SineEase();
-                easingFunction.EasingMode = EasingMode.EaseIn;
-                moveAnim.EasingFunction = easingFunction;
-                Storyboard.SetTarget(moveAnim, backgr);
-                Storyboard.SetTargetProperty(moveAnim, "(UIElement.RenderTransform).(TranslateTransform.X)");
-                //storyboard.Completed += new System.EventHandler(storyboard_Completed);
-                storyboard.Children.Add(moveAnim);
-                storyboard.Begin();
-                Storyboard storyboardscale = new Storyboard();
-                ScaleTransform scale = new ScaleTransform();//{ X = 1.0, Y = 1.0 };
-                                                            //appBar.RenderTransformOrigin = new Point(250.0/64, 0.0);
-                appBar.RenderTransform = scale;
-                DoubleAnimation scaleAnim = new DoubleAnimation();
-                scaleAnim.Duration = TimeSpan.FromMilliseconds(250);
-                scaleAnim.From = 1.0;
-                scaleAnim.To = 250.0 / 64;
-                SineEase easingFunctionscale = new SineEase();
-                easingFunctionscale.EasingMode = EasingMode.EaseIn;
-                scaleAnim.EasingFunction = easingFunctionscale;
-                Storyboard.SetTarget(scaleAnim, appBar);
-                Storyboard.SetTargetProperty(scaleAnim, "(UIElement.RenderTransform).(ScaleTransform.ScaleX)");
-                //storyboardscale.Completed += new System.EventHandler(storyboard_Completed);
-                storyboardscale.Children.Add(scaleAnim);
-                storyboardscale.Begin();
-
-
+                openAppBarAnimation();
                 textBlock1.Text = "Гамбургер открыт";
-                hamburgerButton.Width = 250;
             }
             else
             {
                 isAppBarOpen = false;
-                Storyboard storyboard = new Storyboard();
-                TranslateTransform trans = new TranslateTransform();// { X = 60.0, Y = 0.0 };
-                                                                    //backgr.RenderTransformOrigin = new Point(250.0, 0.0);
-                backgr.RenderTransform = trans;
-                DoubleAnimation moveAnim = new DoubleAnimation();
-                moveAnim.Duration = TimeSpan.FromMilliseconds(250);
-                moveAnim.From = 250-64;
-                moveAnim.To = 0;
-                //moveAnim.BeginTime = TimeSpan.FromSeconds(0.85);
-                SineEase easingFunction = new SineEase();
-                easingFunction.EasingMode = EasingMode.EaseInOut;
-                moveAnim.EasingFunction = easingFunction;
-                Storyboard.SetTarget(moveAnim, backgr);
-                Storyboard.SetTargetProperty(moveAnim, "(UIElement.RenderTransform).(TranslateTransform.X)");
-                //storyboard.Completed += new System.EventHandler(storyboard_Completed);
-                storyboard.Children.Add(moveAnim);
-                storyboard.Begin();
-
-                Storyboard storyboardscale = new Storyboard();
-                ScaleTransform scale = new ScaleTransform();//{ X = 1.0, Y = 1.0 };
-                                                            //appBar.RenderTransformOrigin = new Point(250.0/64, 0.0);
-                appBar.RenderTransform = scale;
-                DoubleAnimation scaleAnim = new DoubleAnimation();
-                scaleAnim.Duration = TimeSpan.FromMilliseconds(250);
-                scaleAnim.From = 250.0 / 64;
-                scaleAnim.To = 1;
-                SineEase easingFunctionscale = new SineEase();
-                easingFunctionscale.EasingMode = EasingMode.EaseInOut;
-                scaleAnim.EasingFunction = easingFunctionscale;
-                Storyboard.SetTarget(scaleAnim, appBar);
-                Storyboard.SetTargetProperty(scaleAnim, "(UIElement.RenderTransform).(ScaleTransform.ScaleX)");
-                //storyboardscale.Completed += new System.EventHandler(storyboard_Completed);
-                storyboardscale.Children.Add(scaleAnim);
-                storyboardscale.Begin();
-                
-                textBlock1.Text = "Гамбургер закрыт";
-                hamburgerButton.Width = 64;
+                closeAppBarAnimation();
+                textBlock1.Text = "Гамбургер закрыт"; // viewDebug
             }
         }
 
