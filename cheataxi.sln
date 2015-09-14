@@ -1,0 +1,110 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "cheataxi", "cheataxi\cheataxi.csproj", "{40B07460-692C-487B-9A01-49BA834E5E8D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "cheataxi", "cheataxi", "{FB73C0B8-D2E8-4CB3-87A6-45D57B215952}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "cheataxi.Shared", "cheataxi.Shared\cheataxi.Shared.shproj", "{63349899-D08D-4C6A-AD2F-ECD3ED27A53A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "cheataxi.WindowsPhone", "cheataxi.WindowsPhone\cheataxi.WindowsPhone.csproj", "{81591CCE-7F13-4B68-B2AB-1D15A17ABDB6}"
+EndProject
+Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		cheataxi.Shared\cheataxi.Shared.projitems*{81591cce-7f13-4b68-b2ab-1d15a17abdb6}*SharedItemsImports = 4
+		cheataxi.Shared\cheataxi.Shared.projitems*{63349899-d08d-4c6a-ad2f-ecd3ed27a53a}*SharedItemsImports = 13
+		cheataxi.Shared\cheataxi.Shared.projitems*{40b07460-692c-487b-9a01-49ba834e5e8d}*SharedItemsImports = 4
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|ARM = Debug|ARM
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|ARM = Release|ARM
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{40B07460-692C-487B-9A01-49BA834E5E8D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{40B07460-692C-487B-9A01-49BA834E5E8D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{40B07460-692C-487B-9A01-49BA834E5E8D}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{40B07460-692C-487B-9A01-49BA834E5E8D}.Debug|ARM.ActiveCfg = Debug|ARM
+		{40B07460-692C-487B-9A01-49BA834E5E8D}.Debug|ARM.Build.0 = Debug|ARM
+		{40B07460-692C-487B-9A01-49BA834E5E8D}.Debug|ARM.Deploy.0 = Debug|ARM
+		{40B07460-692C-487B-9A01-49BA834E5E8D}.Debug|x64.ActiveCfg = Debug|x64
+		{40B07460-692C-487B-9A01-49BA834E5E8D}.Debug|x64.Build.0 = Debug|x64
+		{40B07460-692C-487B-9A01-49BA834E5E8D}.Debug|x64.Deploy.0 = Debug|x64
+		{40B07460-692C-487B-9A01-49BA834E5E8D}.Debug|x86.ActiveCfg = Debug|x86
+		{40B07460-692C-487B-9A01-49BA834E5E8D}.Debug|x86.Build.0 = Debug|x86
+		{40B07460-692C-487B-9A01-49BA834E5E8D}.Debug|x86.Deploy.0 = Debug|x86
+		{40B07460-692C-487B-9A01-49BA834E5E8D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{40B07460-692C-487B-9A01-49BA834E5E8D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{40B07460-692C-487B-9A01-49BA834E5E8D}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{40B07460-692C-487B-9A01-49BA834E5E8D}.Release|ARM.ActiveCfg = Release|ARM
+		{40B07460-692C-487B-9A01-49BA834E5E8D}.Release|ARM.Build.0 = Release|ARM
+		{40B07460-692C-487B-9A01-49BA834E5E8D}.Release|ARM.Deploy.0 = Release|ARM
+		{40B07460-692C-487B-9A01-49BA834E5E8D}.Release|x64.ActiveCfg = Release|x64
+		{40B07460-692C-487B-9A01-49BA834E5E8D}.Release|x64.Build.0 = Release|x64
+		{40B07460-692C-487B-9A01-49BA834E5E8D}.Release|x64.Deploy.0 = Release|x64
+		{40B07460-692C-487B-9A01-49BA834E5E8D}.Release|x86.ActiveCfg = Release|x86
+		{40B07460-692C-487B-9A01-49BA834E5E8D}.Release|x86.Build.0 = Release|x86
+		{40B07460-692C-487B-9A01-49BA834E5E8D}.Release|x86.Deploy.0 = Release|x86
+		{81591CCE-7F13-4B68-B2AB-1D15A17ABDB6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{81591CCE-7F13-4B68-B2AB-1D15A17ABDB6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{81591CCE-7F13-4B68-B2AB-1D15A17ABDB6}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{81591CCE-7F13-4B68-B2AB-1D15A17ABDB6}.Debug|ARM.ActiveCfg = Debug|ARM
+		{81591CCE-7F13-4B68-B2AB-1D15A17ABDB6}.Debug|ARM.Build.0 = Debug|ARM
+		{81591CCE-7F13-4B68-B2AB-1D15A17ABDB6}.Debug|ARM.Deploy.0 = Debug|ARM
+		{81591CCE-7F13-4B68-B2AB-1D15A17ABDB6}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{81591CCE-7F13-4B68-B2AB-1D15A17ABDB6}.Debug|x64.Build.0 = Debug|Any CPU
+		{81591CCE-7F13-4B68-B2AB-1D15A17ABDB6}.Debug|x64.Deploy.0 = Debug|Any CPU
+		{81591CCE-7F13-4B68-B2AB-1D15A17ABDB6}.Debug|x86.ActiveCfg = Debug|x86
+		{81591CCE-7F13-4B68-B2AB-1D15A17ABDB6}.Debug|x86.Build.0 = Debug|x86
+		{81591CCE-7F13-4B68-B2AB-1D15A17ABDB6}.Debug|x86.Deploy.0 = Debug|x86
+		{81591CCE-7F13-4B68-B2AB-1D15A17ABDB6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{81591CCE-7F13-4B68-B2AB-1D15A17ABDB6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{81591CCE-7F13-4B68-B2AB-1D15A17ABDB6}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{81591CCE-7F13-4B68-B2AB-1D15A17ABDB6}.Release|ARM.ActiveCfg = Release|ARM
+		{81591CCE-7F13-4B68-B2AB-1D15A17ABDB6}.Release|ARM.Build.0 = Release|ARM
+		{81591CCE-7F13-4B68-B2AB-1D15A17ABDB6}.Release|ARM.Deploy.0 = Release|ARM
+		{81591CCE-7F13-4B68-B2AB-1D15A17ABDB6}.Release|x64.ActiveCfg = Release|Any CPU
+		{81591CCE-7F13-4B68-B2AB-1D15A17ABDB6}.Release|x64.Build.0 = Release|Any CPU
+		{81591CCE-7F13-4B68-B2AB-1D15A17ABDB6}.Release|x64.Deploy.0 = Release|Any CPU
+		{81591CCE-7F13-4B68-B2AB-1D15A17ABDB6}.Release|x86.ActiveCfg = Release|x86
+		{81591CCE-7F13-4B68-B2AB-1D15A17ABDB6}.Release|x86.Build.0 = Release|x86
+		{81591CCE-7F13-4B68-B2AB-1D15A17ABDB6}.Release|x86.Deploy.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{40B07460-692C-487B-9A01-49BA834E5E8D} = {FB73C0B8-D2E8-4CB3-87A6-45D57B215952}
+		{63349899-D08D-4C6A-AD2F-ECD3ED27A53A} = {FB73C0B8-D2E8-4CB3-87A6-45D57B215952}
+		{81591CCE-7F13-4B68-B2AB-1D15A17ABDB6} = {FB73C0B8-D2E8-4CB3-87A6-45D57B215952}
+	EndGlobalSection
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 5
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://artmordent.visualstudio.com/defaultcollection
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = cheataxi\\cheataxi.csproj
+		SccProjectTopLevelParentUniqueName1 = cheataxi.sln
+		SccProjectName1 = cheataxi
+		SccLocalPath1 = cheataxi
+		SccProjectUniqueName2 = cheataxi.Shared\\cheataxi.Shared.shproj
+		SccProjectTopLevelParentUniqueName2 = cheataxi.sln
+		SccProjectName2 = cheataxi.Shared
+		SccLocalPath2 = cheataxi.Shared
+		SccProjectUniqueName3 = cheataxi.Shared\\cheataxi.Shared.projitems
+		SccProjectTopLevelParentUniqueName3 = cheataxi.sln
+		SccProjectName3 = cheataxi.Shared
+		SccLocalPath3 = cheataxi.Shared
+		SccProjectUniqueName4 = cheataxi.WindowsPhone\\cheataxi.WindowsPhone.csproj
+		SccProjectTopLevelParentUniqueName4 = cheataxi.sln
+		SccProjectName4 = cheataxi.WindowsPhone
+		SccLocalPath4 = cheataxi.WindowsPhone
+	EndGlobalSection
+EndGlobal
