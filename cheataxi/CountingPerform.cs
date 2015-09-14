@@ -22,6 +22,50 @@ namespace cheataxi
 {
     public sealed partial class MainPage : Page
     {
+        private async void contextPerform()
+        {
+            if (!isSourseTapped)
+            {
+                myMap.Children.Clear();
+                myMap.ShapeLayers.Clear();
+                myMap.Children.Add(pin);
+                Bing.Maps.MapLayer.SetPosition(pin, location);
+                sourseLocation = location;
+                isSourseTapped = true;
+                tipLable.Text = "Введите или выберите на карте конечную точку маршрута:";
+                sourseLable.Visibility = Visibility.Visible;
+                sourseLableBG.Visibility = Visibility.Visible;
+                sourseLableHead.Visibility = Visibility.Visible;
+                aimLable.Visibility = Visibility.Collapsed;
+                aimLableBG.Visibility = Visibility.Collapsed;
+                aimLableHead.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                Bing.Maps.MapLayer.SetPosition(pinAim, location);
+                AimLocation = location;
+                myMap.Children.Add(pinAim);
+                await countingPerform();
+                if (flagdistance)
+                {
+                    await DrawPath();
+                }
+                else
+                {
+                    MessageDialog dialog = new MessageDialog("Такое расстояние легче преодолеть на самолете", "Такси?");
+                    await dialog.ShowAsync();
+                }
+                isSourseTapped = false;
+                sourseLable.Visibility = Visibility.Visible;
+                sourseLableBG.Visibility = Visibility.Visible;
+                sourseLableHead.Visibility = Visibility.Visible;
+                aimLable.Visibility = Visibility.Visible;
+                aimLableBG.Visibility = Visibility.Visible;
+                aimLableHead.Visibility = Visibility.Visible;
+                getResult();
+            }
+        }
+
         private async Task countingPerform()
         {
             string tmpSourseLoc = Convert.ToString(sourseLocation.Latitude).Substring(0, Convert.ToString(sourseLocation.Latitude).IndexOf(',')) + '.' + Convert.ToString(sourseLocation.Latitude).Substring(Convert.ToString(sourseLocation.Latitude).IndexOf(',') + 1, Convert.ToString(sourseLocation.Latitude).Length - Convert.ToString(sourseLocation.Latitude).IndexOf(',') - 1);

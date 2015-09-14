@@ -112,6 +112,8 @@
     </Compile>
     <Compile Include="CountingPerform.cs" />
     <Compile Include="DrowPath.cs" />
+    <Compile Include="findme.cs" />
+    <Compile Include="getplacefromtap.cs" />
     <Compile Include="info.xaml.cs">
       <DependentUpon>info.xaml</DependentUpon>
     </Compile>
