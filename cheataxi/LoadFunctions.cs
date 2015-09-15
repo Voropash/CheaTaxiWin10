@@ -30,6 +30,7 @@ namespace cheataxi
             return bitmapImage;
         }
 
+        // Uploading files via FTP
         public static async Task<bool> SmallUpload(string ftpURIInfo, string filename, string username, string password, string UploadLine)
         {
             string serverUrl;

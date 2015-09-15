@@ -22,6 +22,7 @@ namespace cheataxi
 {
     public sealed partial class MainPage : Page
     {
+        // function for map sdk
         private async Task<BingMapHelper.Response> GetResponse(Uri uri)
         {
             System.Net.Http.HttpClient client = new System.Net.Http.HttpClient();
@@ -36,27 +37,27 @@ namespace cheataxi
         async private Task DrawPath()
         {
             loading.Visibility = Visibility.Visible;
+            // form and send request
             string tmpSourseLoc = Convert.ToString(sourseLocation.Latitude).Substring(0, Convert.ToString(sourseLocation.Latitude).IndexOf(',')) + '.' + Convert.ToString(sourseLocation.Latitude).Substring(Convert.ToString(sourseLocation.Latitude).IndexOf(',') + 1, Convert.ToString(sourseLocation.Latitude).Length - Convert.ToString(sourseLocation.Latitude).IndexOf(',') - 1);
             tmpSourseLoc += "," + Convert.ToString(sourseLocation.Longitude).Substring(0, Convert.ToString(sourseLocation.Longitude).IndexOf(',')) + '.' + Convert.ToString(sourseLocation.Longitude).Substring(Convert.ToString(sourseLocation.Longitude).IndexOf(',') + 1, Convert.ToString(sourseLocation.Longitude).Length - Convert.ToString(sourseLocation.Longitude).IndexOf(',') - 1);
             string tmpAimLoc = Convert.ToString(AimLocation.Latitude).Substring(0, Convert.ToString(AimLocation.Latitude).IndexOf(',')) + '.' + Convert.ToString(AimLocation.Latitude).Substring(Convert.ToString(AimLocation.Latitude).IndexOf(',') + 1, Convert.ToString(AimLocation.Latitude).Length - Convert.ToString(AimLocation.Latitude).IndexOf(',') - 1);
             tmpAimLoc += "," + Convert.ToString(AimLocation.Longitude).Substring(0, Convert.ToString(AimLocation.Longitude).IndexOf(',')) + '.' + Convert.ToString(AimLocation.Longitude).Substring(Convert.ToString(AimLocation.Longitude).IndexOf(',') + 1, Convert.ToString(AimLocation.Longitude).Length - Convert.ToString(AimLocation.Longitude).IndexOf(',') - 1);
-
             var url = "http://dev.virtualearth.net/REST/V1/Routes/Driving?o=json&wp.0=" +
                         tmpSourseLoc +
                         "&wp.1=" +
                         tmpAimLoc +
                         "&optmz=distance&rpo=Points&key=" + "2YNtFFMLLBJhNArw7AGF~J1bD5V8AXTm26ao0o20rRw~AqSRI8WDH0Mx820MLWME4SM-ye-FewEHmO7vj5O4vSDrNdVWsnRXo3I-LUhllJrB";
-
-            Uri geocodeRequest = new Uri(url);
+             Uri geocodeRequest = new Uri(url);
             BingMapHelper.Response r = await GetResponse(geocodeRequest);
 
             if (r.StatusCode != 404)
             {
+                // Delete lables from map
                 myMap.Children.Clear();
                 myMap.ShapeLayers.Clear();
 
+                // Draw Path via server answer 
                 geolocator = new Geolocator();
-
                 MapPolyline routeLine = new MapPolyline();
                 routeLine.Locations = new LocationCollection();
                 routeLine.Color = Windows.UI.Colors.RoyalBlue;
@@ -90,7 +91,7 @@ namespace cheataxi
             }
             else
             {
-                MessageDialog dialog = new MessageDialog("Маршрут построить не удалось. Попробуйте снова. \r\nЕсли ошибка повторится вновь, просим уведомить нас о ней через форму обратной связи.", "Ошибка построения маршрута");
+                MessageDialog dialog = new MessageDialog("Маршрут построить не удалось. Попробуйте снова. \r\nЕсли ошибка повторится вновь, просим уведомить нас о ней через форму обратной связи.", "Ошибка построения маршрута #007100");
                 await dialog.ShowAsync();
             }
             loading.Visibility = Visibility.Collapsed;

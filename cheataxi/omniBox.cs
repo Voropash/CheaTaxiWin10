@@ -22,10 +22,11 @@ namespace cheataxi
 {
     public sealed partial class MainPage : Page
     {
+        // Click on find-adress button
+        // Forming omniBox
         private async void button5_Click(object sender, RoutedEventArgs e)
         {
-            string address = "http://geocode-maps.yandex.ru/1.x/?geocode=" + textBox.Text;
-            
+            string address = "http://geocode-maps.yandex.ru/1.x/?geocode=" + textBox.Text;            
             StorageFile myDB;
             try
             {
@@ -41,19 +42,19 @@ namespace cheataxi
                 await operation.StartAsync().AsTask(progressH);
                     //Debug.WriteLine("BacgroundTransfer created");
                 
-                //StorageFolder folder = Windows.Storage.ApplicationData.Current.LocalFolder;
-                myDB = await Windows.Storage.ApplicationData.Current.LocalFolder.GetFileAsync("multi");
-                
                 // Read the data
+                myDB = await Windows.Storage.ApplicationData.Current.LocalFolder.GetFileAsync("multi");
                 var alldata = await Windows.Storage.FileIO.ReadLinesAsync(myDB);
                 datalines = new string[alldata.Count];
-                int ko = 0; int start; string pos = "";
+                int ko = 0; // counter
+                int start; // first no-hashtag sybol in string
                 foreach (var line in alldata)
                 {
                     datalines[ko] = line.ToString();
                     ko++;
                     if ((start = datalines[ko - 1].IndexOf("<text>")) != -1)
                     {
+                        // forming omniBox
                         int nameLeng = datalines[ko - 1].Length;
                         listBox.Items.Add(datalines[ko - 1].Substring(start + 6, nameLeng - 6 - start - 7));
                     }
@@ -61,15 +62,15 @@ namespace cheataxi
                 await myDB.DeleteAsync();
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                MessageDialog dialog = new MessageDialog("Ошибка при поиске Вашего запроса. Очистите карту и попробуйте построить маршрут снова.", "Ошибка поиска");
+                MessageDialog dialog = new MessageDialog("Ошибка при поиске Вашего запроса. Очистите карту и попробуйте построить маршрут снова.", "Ошибка поиска #007101");
             }
         }
 
 
-
-        private async void listBoxHandler(object sender, TappedRoutedEventArgs e)
+        // Tapped on omniBox
+        private void listBoxHandler(object sender, TappedRoutedEventArgs e)
         {
             int selectedIndex = listBox.SelectedIndex;
             listBox.Visibility = Visibility.Collapsed;
@@ -77,10 +78,14 @@ namespace cheataxi
             controlsBG2.Visibility = Visibility.Collapsed;
             try
             {
-                int ko = 0; int start; string pos = ""; int counter = -1;
+                int ko = 0; // couter
+                int start; // first no-hashtag symbol in string
+                string pos = "";
+                int counter = -1;
                 while (ko < datalines.Length)
                 {
                     ko++;
+                    // Print in sourse/aim lable adress
                     if (((start = datalines[ko - 1].IndexOf("<text>")) != -1))
                     {
                         counter++;
@@ -92,6 +97,7 @@ namespace cheataxi
                         else
                             aimLable.Text = datalines[ko - 1].Substring(start + 6, nameLeng - 6 - start - 7);
                     }
+                    // Start contextPerform()
                     if (((start = datalines[ko - 1].IndexOf("<pos>")) != -1) && (counter == selectedIndex))
                     {
                         int posLenght = datalines[ko - 1].Length;

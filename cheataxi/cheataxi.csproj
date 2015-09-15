@@ -123,7 +123,6 @@
     </Compile>
     <Compile Include="maphelper.cs" />
     <Compile Include="omniBox.cs" />
-    <Compile Include="ParallaxConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="rudiment.cs" />
   </ItemGroup>

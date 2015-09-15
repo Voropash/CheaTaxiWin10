@@ -94,6 +94,7 @@ namespace cheataxi
             infoButton.Width = 250;
         }
 
+        // Opening OmniBox 
         private void omniBoxAnimation()
         {
             Storyboard storyboard = new Storyboard();
@@ -199,7 +200,7 @@ namespace cheataxi
             storyboardClearButton.Begin();
         }
 
-
+        // Close OmniBox
         private void clearButtonAnimation()
         {
             Storyboard storyboard = new Storyboard();

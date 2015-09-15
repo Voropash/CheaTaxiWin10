@@ -18,6 +18,10 @@ using System.Runtime.Serialization.Json;
 using Windows.Devices.Geolocation;
 using Windows.UI.Popups;
 
+// ToDo
+// ReWrite this, using .Point 
+
+
 namespace cheataxi
 {
     public sealed partial class MainPage : Page

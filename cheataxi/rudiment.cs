@@ -18,6 +18,12 @@ using System.Runtime.Serialization.Json;
 using Windows.Devices.Geolocation;
 using Windows.UI.Popups;
 
+
+// // // // // RUDIMENT // // // // // 
+// Not used code
+// Some functions may be useful in future
+// rough copy, experiments
+
 namespace cheataxi
 {
     public sealed partial class MainPage : Page
@@ -47,14 +53,11 @@ namespace cheataxi
         // Loading and reading big file 
         private async void button3_Click(object sender, RoutedEventArgs e)
         {
-
             if (OwnSemaphoreBtn3 == true)
             {
                 OwnSemaphoreBtn3 = false;
-
                 textBlock1.Text = "загрузка";
                 StorageFile myDB;
-
                 try
                 {
                     string address = @"http://artmordent.ru/cheataxi/multiplylines.cr";
@@ -78,7 +81,7 @@ namespace cheataxi
                     }
                     await myDB.DeleteAsync();
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     textBlock1.Text = "Download Error";
                 }
@@ -87,7 +90,7 @@ namespace cheataxi
         }
 
 
-        // Loading changing and uploading counter
+        // Loading changing and uploading counter  from server
         private async void button2_Click(object sender, RoutedEventArgs e)
         {
             if (OwnSemaphoreBtn2 == true)
@@ -115,7 +118,7 @@ namespace cheataxi
                     var Successful = await LoadFunctions.SmallUpload("ftp://artmordent.ru/", "database.cr", "voropash_2", "123456789", num.ToString());
                     await myDB.DeleteAsync();
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     textBlock1.Text = "Download Error";
                 }
@@ -124,7 +127,7 @@ namespace cheataxi
         }
         
       
-        // Loading Image
+        // Loading Image from server
         private async void button1_Click(object sender, RoutedEventArgs e)
         {
             textBlock1.Text = "загрузка";

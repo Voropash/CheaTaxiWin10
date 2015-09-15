@@ -22,6 +22,7 @@ namespace cheataxi
 {
     public sealed partial class MainPage : Page
     {
+        // Drow dot, start main perform, drow path 
         private async void contextPerform()
         {
             if (!isSourseTapped)
@@ -45,7 +46,9 @@ namespace cheataxi
                 Bing.Maps.MapLayer.SetPosition(pinAim, location);
                 AimLocation = location;
                 myMap.Children.Add(pinAim);
+                // Main Perform
                 await countingPerform();
+                // If distance is not very big
                 if (flagdistance)
                 {
                     await DrawPath();
@@ -68,6 +71,7 @@ namespace cheataxi
 
         private async Task countingPerform()
         {
+            // Forming request
             string tmpSourseLoc = Convert.ToString(sourseLocation.Latitude).Substring(0, Convert.ToString(sourseLocation.Latitude).IndexOf(',')) + '.' + Convert.ToString(sourseLocation.Latitude).Substring(Convert.ToString(sourseLocation.Latitude).IndexOf(',') + 1, Convert.ToString(sourseLocation.Latitude).Length - Convert.ToString(sourseLocation.Latitude).IndexOf(',') - 1);
             tmpSourseLoc += "," + Convert.ToString(sourseLocation.Longitude).Substring(0, Convert.ToString(sourseLocation.Longitude).IndexOf(',')) + '.' + Convert.ToString(sourseLocation.Longitude).Substring(Convert.ToString(sourseLocation.Longitude).IndexOf(',') + 1, Convert.ToString(sourseLocation.Longitude).Length - Convert.ToString(sourseLocation.Longitude).IndexOf(',') - 1);
             string tmpAimLoc = Convert.ToString(AimLocation.Latitude).Substring(0, Convert.ToString(AimLocation.Latitude).IndexOf(',')) + '.' + Convert.ToString(AimLocation.Latitude).Substring(Convert.ToString(AimLocation.Latitude).IndexOf(',') + 1, Convert.ToString(AimLocation.Latitude).Length - Convert.ToString(AimLocation.Latitude).IndexOf(',') - 1);
@@ -77,6 +81,7 @@ namespace cheataxi
             StorageFile myDB;
             try
             {
+                // Save answer
                 StorageFile tempFile2 = await Windows.Storage.ApplicationData.Current.LocalFolder.CreateFileAsync("route", CreationCollisionOption.ReplaceExisting);
                 BackgroundDownloader manager2 = new BackgroundDownloader();
                 var operation = manager2.CreateDownload(new Uri(address), tempFile2);
@@ -85,20 +90,25 @@ namespace cheataxi
                 await operation.StartAsync().AsTask(progressH);
                     //Debug.WriteLine("BacgroundTransfer created");
 
-                
-                //StorageFolder folder = Windows.Storage.ApplicationData.Current.LocalFolder;
-                myDB = await Windows.Storage.ApplicationData.Current.LocalFolder.GetFileAsync("route");
-                
                 // Read the data
+                myDB = await Windows.Storage.ApplicationData.Current.LocalFolder.GetFileAsync("route");
                 var alldata = await Windows.Storage.FileIO.ReadLinesAsync(myDB);
                 string[] datalines = new string[alldata.Count];
-                int ko = 0; int start; string distance = ""; bool flagYet = false; bool flagend = true; bool flagDuration = false;
+                    int ko = 0; // counter
+                    int start;
+                    string distance = "";
+                    bool flagYet = false;
+                    bool flagend = true; // semaphor for check 1or2 hashtag. 
+                    bool flagDuration = false;
                 foreach (var line in alldata)
                 {
+                    // get new string
                     datalines[ko] = line.ToString();
 
+                    // in <duration>
                     if (flagDuration)
                     {
+                        // recheck next hashtag
                         if ((start = datalines[ko].IndexOf("<value>")) == -1)
                         {
                             MessageDialog dialog = new MessageDialog("Не удалось построить маршрут. Попробуйте снова. \r\nЕсли ошибка повторится вновь, просим уведомить нас о ней через форму обратной связи.", "Ошибка #007002");
@@ -106,6 +116,7 @@ namespace cheataxi
                             await myDB.DeleteAsync();
                             break;
                         }
+                        // print duratuion
                         int durationStringLenght = datalines[ko].Length;
                         distance = datalines[ko].Substring(start + 7, durationStringLenght - 7 - start - 8);
                         timeResult.Text = "Предположительное время в дороге " + distance + " секунд\t";
@@ -113,8 +124,10 @@ namespace cheataxi
                         flagDuration = false;
                         continue;
                     }
+                    // in <distance>
                     if (flagYet)
                     {
+                        // recheck next hashtag
                         if ((start = datalines[ko].IndexOf("<value>")) == -1)
                         {
                             MessageDialog dialog = new MessageDialog("Маршрут построить не удалось. Попробуйте снова. \r\nЕсли ошибка повторится вновь, просим уведомить нас о ней через форму обратной связи.", "Ошибка #007003");
@@ -122,6 +135,7 @@ namespace cheataxi
                             await myDB.DeleteAsync();
                             break;
                         }
+                        //print distance
                         int distanceStringLenght = datalines[ko].Length;
                         distance = datalines[ko].Substring(start + 7, distanceStringLenght - 7 - start - 8);
                             //Debug.WriteLine(distance);
@@ -140,6 +154,7 @@ namespace cheataxi
                     }
                     
                     ko++;
+                    // status zero in answer
                     if ((start = datalines[ko - 1].IndexOf("<status>ZERO")) != -1)
                     {
                         MessageDialog dialog = new MessageDialog("Маршрут построить не удалось. Попробуйте снова. \r\nЕсли ошибка повторится вновь, просим уведомить нас о ней через форму обратной связи.", "Ошибка #007004");
@@ -147,11 +162,13 @@ namespace cheataxi
                         await myDB.DeleteAsync();
                         break;
                     }
+                    // status not in answer
                     if ((start = datalines[ko - 1].IndexOf("<status>NOT")) != -1)
                     {
                         textBox.Text = "Маршрут не найден!";
                         break;
                     }
+                    // change semaphore values
                     if (flagend && (datalines[ko - 1].IndexOf("<step>")) != -1)
                     {
                         flagend = false;
@@ -169,13 +186,11 @@ namespace cheataxi
                         flagYet = true;
                     }
                 }
-
                 await myDB.DeleteAsync();
-
             }
             catch (Exception)
             {
-                textBlock1.Text = "Info Error";
+                textBlock1.Text = "Info Error"; // Some errors with file
             }
         }
     }
